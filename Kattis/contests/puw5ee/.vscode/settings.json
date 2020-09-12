@@ -1,0 +1,61 @@
+{
+    "search.exclude": {
+        "**/.vscode": true,
+        "**/build": true
+    },
+    "files.watcherExclude": {
+        "**/.vscode/**": true,
+        "**/build": true
+    },
+    "files.exclude": {
+        "**/.vscode": true,
+        "**/build": true
+    },
+    "workbench.colorCustomizations": {},
+    "files.associations": {
+        "tuple": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "array": "cpp",
+        "atomic": "cpp",
+        "cctype": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "fstream": "cpp",
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "typeinfo": "cpp",
+        "regex": "cpp",
+        "iostream": "cpp",
+        "iomanip": "cpp",
+        "valarray": "cpp"
+    }
+}
