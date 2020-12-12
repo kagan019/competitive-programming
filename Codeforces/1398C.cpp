@@ -5,36 +5,20 @@ int main() {
     int t; cin >> t;
     while (t--) {
         int n; cin >> n;
-        string s; cin >> s;
-        vector<int> sums;
-        int sm = 0;
-        
+        unordered_map<long long,long long> debt;
+        debt[0] = 1;
+        int d = 0;
+        long long sas = 0;
         for (int i = 0; i < n; i++) {
-            char c = s[i];
-            sm +=c-'0';
-            sums.push_back(sm);
+            char c; cin >> c;
+            const int x = c - '0';
+            d -= 1;
+            d += x;
+            if (debt.find(d) == debt.end())
+                debt[d] = 0;
+            sas += debt[d];
+            debt[d]++;    
         }
-        int ng = 0;
-        for (int s = 0; s < n; s++) {
-            if (s < fullsum) {
-                bool found = false;
-                if sum <= left 
-                    ng += search left
-                    found =true
-                if (sum <= right)
-                    ng += search right
-                    found = true
-                if (!found) {
-                    (all of left, search s-left in right) ;
-                    (search for left-(s-right) in left, all of right);
-                }
-
-            }
-        }
-        
-        cout << ng << "\n";
-        
-        
+        cout << sas << endl;
     }
-    
 }

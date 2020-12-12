@@ -5,19 +5,11 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "kattis build active file",
-            "command": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\g++.exe",
-            "args": [
-                "-g3",
-                "-ggdb",
-                "-static",
-                "-std=gnu++17",
-                "${file}",
-                "-o",
-                "${workspaceFolder}\\build\\${fileBasenameNoExtension}.exe"
-            ],
+            "label": "codeforces build active file",
+            "command": "make solution problem=\"${fileBasenameNoExtension}.cpp\"",
+            "args": [],
             "options": {
-                "cwd": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin"
+                "cwd": "${workspaceRoot}"
             },
             "problemMatcher": [
                 "$gcc"

@@ -1,0 +1,112 @@
+1
+
+
+
+
+
+n =17
+
+4 * 4 + 4 / 4
+
+
+11
+
+4 + 4 - 4 * 4
+
+
+-12 => (+-*)
+15 => (*-/)
+
++
+*   .
+/   .
+-   .
+4 * 4 * 4
+
+for each every 3-combination of the 4 operators (4C3 of these)
+    if evaluate, store it in the hash set // $$$!
+        
+for each test case of result n,
+    test if n is in hash set // cheap!
+    if a result is not in the hash set, then no solution
+    otherwise, output solution of (*/+-)
+    
+3 - combination of 4 distinct things?
+(0->3, 0->3, 0->3)
+00  10  11
+'+' '*' '/'
+
+1- combination of 4 distinct things?
+    0 1 2 3
+
+2- combination of 4 things
+    (0, 2)    (1,2)      (2, 3)
+~~  ('+','*') ('-','*')  ('*', '/')
+
+
+
+
+1) vector 
+  +count them
+  -carry when num > 4
+2) string
+  -cant increment
+3)
+    number
+    already hashed
+
+H/T H/T
+"HT" "TT" ...
+01   11 ..
+
+00 + 1 => 01
+01 + 1 => 10
+when we count in base 2,
+    we see every combination of 2 items
+
+when we count in base 4?
+    we see every combination of 4 items!
+
+hex repesents colors
+
+A6
+=> 1101 0011
+
+0 3 _ 4
+00 11
+
+00 00
+00 01
+..
+00 11
+01 00
+& | 
+
+3 & 1
+64 >> 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+
+}

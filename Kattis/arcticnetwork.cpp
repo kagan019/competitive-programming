@@ -38,14 +38,20 @@ bool ab4b(edge &a, edge &b) {
 	return sqdist(a) < sqdist(b);
 }
 
-void join(vector<vector<int>> &disjoint, int src, int dest) {
-	//union disjoint[src] to disjoint[dest];
-	for (int &i : disjoint[src]) {
-		posts[i].color = dest;
+int find (vector<int> &disjoint,int v) {
+	if (disjoint[v] == -1) return v;
+	disjoint[v] = find(disjoint, disjoint[v]);
+	return disjoint[v];
+}
+
+void join(vector<int> &disjoint, int src, int dest) {
+	int x = find(disjoint, src);
+	int y = find(disjoint, dest);
+	if (x == y) {
+		return;
 	}
-	disjoint[dest].insert(disjoint[dest].end(),disjoint[src].begin(),disjoint[src].end());
-	disjoint[src].clear();
-	disjoint[src].resize(0);
+	//union disjoint[src] to disjoint[dest];
+	disjoint[x] = y;
 }
 
  
@@ -71,43 +77,21 @@ void solve () {
 		}		
 	}
 	sort(edges.begin(), edges.end(), ab4b);
-
 	
-
+	
 	// filter edges that connect nondisjoint sets
 	int colors = 0;
 	vector<edge *> selected;
-	int joint = 0; // posts of color x must be in set at index x. color -1 means not in here
+	vector<int> disjoint(P,-1);
 	for(edge &e : edges) { // check shorter edges first
 		// if e connects two new points or is the first (shortest) that connects two disjoint clusters of points,
 		// add that edge to selected
-		// keep track of disjoint to know how many are in the lowest color group
-
-
-		if (f(e).color == -1 && s(e).color == -1) {
+		
+		if (find(disjoint, e.p1) != find(disjoint, e.p2)) {
+			join(disjoint, e.p1, e.p2);
 			selected.push_back(&e);
-			colors++;
-			f(e).color = colors;
-			s(e).color = colors;
-			disjoint.resize(colors+1);
-			disjoint[colors] = vector<int>({e.p1, e.p2});
 		}
-		else if (f(e).color != s(e).color) {
-			selected.push_back(&e);
-			int lc = f(e).color > s(e).color ? e.p1 : e.p2; 
-			int sc = f(e).color < s(e).color ? e.p1 : e.p2; 
-			if (posts[sc].color == -1) {
-				//add posts[sc] to posts[lc]'s color set
-				posts[sc].color = posts[lc].color;
-				disjoint[posts[sc].color].push_back(sc);
-			}
-			else {
-				//add posts[lc], and every other post with 
-				//the same color as posts[lc] 
-				// to posts[sc]'s color set
-				join(disjoint, lc, sc);
-			}
-		}
+		
 	}
 
  	cout << sqrt(sqdist(*(selected[selected.size() - S]))) << endl;	
@@ -116,9 +100,9 @@ void solve () {
 int main() {
     ios_base::sync_with_stdio(0); cin.tie(NULL); cout.tie(0);
     cout << fixed << setprecision(2);
-    ll n;
+	ll n;
     cin >> n;
-    for (int i = 0; i < n; ++i) {
+    for (ll i = 0; i < n; ++i) {
         solve();
     }
 }
