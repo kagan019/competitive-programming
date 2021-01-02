@@ -18,20 +18,6 @@ public:
             }
         }
         return ans;
-        /*
-        int lastend = -1;
-        int ans = 0;
-        for(int i = 0; i< nums.size(); i++) {
-           int s = 0;
-           for(int j = i; j > lastend; j--) {
-               s += nums[j];
-               if (s == target) {
-                   ans++;
-                   lastend = i;
-               }
-           }
-        }
-        return ans;
-        */
+
     }
 };

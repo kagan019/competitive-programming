@@ -1,0 +1,40 @@
+{
+    "search.exclude": {
+        "**/.vscode": true,
+        "**/build": true
+    },
+    "files.watcherExclude": {
+        "**/.vscode/**": true,
+        "**/build": true
+    },
+    "files.exclude": {
+        "**/.vscode": true,
+        "**/build": true
+    },
+    "workbench.colorCustomizations": {},
+    "files.associations": {
+        "tuple": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "iostream": "cpp",
+        "cmath": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "valarray": "cpp",
+        "scoped_allocator": "cpp",
+        "iosfwd": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "regex": "cpp",
+        "utility": "cpp",
+        "ostream": "cpp"
+    }
+}
