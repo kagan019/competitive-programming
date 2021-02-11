@@ -12,23 +12,9 @@ struct water{
 
 
 
-namespace std
-{
-    template<> struct hash<water>
-    {
-        std::size_t operator()(water const& s) const noexcept
-        {
-            std::size_t h1 = std::hash<long long>{}(s.first);
-            std::size_t h2 = std::hash<long long>{}(s.second);
-            return h1 ^ (h2 << 1); // or use boost::hash_combine
-        }
-    };
-}
-
-
 int main() {
     whole w,h;
-    cin >> w >> h;
+    cin >> h >> w;
     vector<vector<whole>> mtx(h,vector<whole>(w));
     for (vector<whole> &vv : mtx) {
         for (whole &x : vv) {
@@ -43,41 +29,42 @@ int main() {
         return 0;
     }
 
-    auto cmph = [&mtx](water &a, water &b) -> bool {
-        return mtx[a.first][a.second] > mtx[b.first][b.second];
+    auto cmph = [](water &a, water &b) -> bool {
+        return a.flow >= b.flow;
     };
 
-    vector<water> hh;
-    hh.push_back(water{i,j,mtx[i][j]});
-    vector<water> dir{
+    priority_queue<water,std::vector<water>, decltype(cmph)> hh(cmph);
+    hh.push(water{i,j,mtx[i][j]});
+    vector<pair<whole,whole>> dir{
         {-1,-1},{-1,0},{-1,1},
-        {0,-1},        {-1,1},
+        {0,-1},        {0,1},
         {1,-1}, {1,0}, {1,1}
     };
     vector<vector<bool>> searched(h,vector(w,false));
+    searched[i][j] = true;
     whole s = 0;
     while(hh.size()) {
-        pop_heap(hh.begin(),hh.end(),cmph);
-        auto pop = hh.back();
-        hh.pop_back();
+        water pop = hh.top();
+        hh.pop();
         s += -pop.flow;
-        for (water &p : dir) {
+        for (pair<whole,whole> &p : dir) {
             whole ni = pop.first+p.first;
             whole nj = pop.second+p.second;
+            
             if (ni < 0 || ni >= h
-             || nj < 0 || nj >= w
-             || mtx[ni][nj] >= 0)
+             || nj < 0 || nj >= w 
+             || searched[ni][nj])
+                continue;
+            searched[ni][nj] = true;
+            if (mtx[ni][nj] >= 0)
                 continue;
             water newpos{
-                pop.first+p.first, 
-                pop.second+p.second,
+                ni, 
+                nj,
                 max(mtx[ni][nj], pop.flow)
             };
-            if (searched[i][j] == false) {
-                searched[i][j] = true;
-                hh.push_back(newpos);
-                push_heap(hh.begin(),hh.end(),cmph);
-            }
+            
+            hh.push(newpos);
         }
 
     }

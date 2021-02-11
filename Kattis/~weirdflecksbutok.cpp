@@ -171,7 +171,7 @@ float smallestdiam(vector<Point> v){
       A.insert(make_pair(p[i],p[j]));
       j++;
     }
-    i++
+    i++;
   }
 
   auto x = A.begin();

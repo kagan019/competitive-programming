@@ -4,7 +4,7 @@ using namespace std;
 struct Pos {
 	int r, c;
 	int ss;
-	int last;
+	int last = -1;
 };
 
 
@@ -41,7 +41,7 @@ int main() {
 		vector<int> hh;
 		for (int i = 0; i < w; i++) {
 			store.push_back({0,i,block[0][i],-1});
-			hh.push_back(store.size()-1);
+			hh.push_back(i);
 		}
 
 		make_heap(hh.begin(),hh.end(), 
@@ -49,7 +49,7 @@ int main() {
 				return store[a].ss > store[b].ss; 
 			});
 		int last;
-		while(true) {
+		while(hh.size()) {
 			pop_heap(hh.begin(),hh.end());
 			last = hh.back();
 			hh.pop_back();
@@ -59,10 +59,13 @@ int main() {
 			for(auto &dir : dirs) {
 				int newr = store[last].r + dir.first;
 				int newc = store[last].c + dir.second;
-				int newss = store[last].ss + block[newr][newc];
+				
 				bool ibx = 0 <= newr && newr < h+1;
 				bool iby = 0 <= newc && newc < w;
-				if (ibx && iby && newss < visited[newr][newc]) {
+				if (ibx && iby) {
+					int newss = store[last].ss + block[newr][newc];
+					if (newss > visited[newr][newc])
+						continue;
 					store.push_back({
 						newr,newc,newss,last
 					});
@@ -70,9 +73,11 @@ int main() {
 					push_heap(hh.begin(),hh.end());
 				}
 			}
+			cout << "foo" << endl;
 		}
-		
-		for(last = store[last].last; last != -1; last = store[last].last) {
+		cout << "?2" << endl;
+		for(int ll = last; ll != -1; ll = store[last].last) {
+			cout << store[last].r << ", " << store[last].c << endl;
 			block[store[last].r][store[last].c] = ' ' - '0';
 		} 
 		for (int i = 0; i < h; i++ ){
