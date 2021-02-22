@@ -1,8 +1,2 @@
-Case #1: SEN
-Case #2: NWS
-Case #3: EE
-Case #4: IMPOSSIBLE
-Case #5: IMPOSSIBLE
-Case #6: IMPOSSIBLE
-Case #7: EEESN
-Case #8: IMPOSSIBLE
+Case #1: 190
+Case #2: 190

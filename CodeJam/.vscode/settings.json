@@ -27,6 +27,14 @@
         "valarray": "cpp",
         "scoped_allocator": "cpp",
         "iosfwd": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "regex": "cpp",
+        "utility": "cpp",
         "ostream": "cpp"
     }
 }

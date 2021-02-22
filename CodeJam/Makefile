@@ -6,14 +6,14 @@ ARGS_CODEFORCES = \
     -ggdb \
     -static \
     "${problem}" \
-    -o a.exe
+    -o a.out
 TEST_FILE = test.txt
 RESULT_FILE = result.txt
 
 solution: 
 	$(CPP) $(ARGS_CODEFORCES) 
-	a.exe < $(TEST_FILE) > $(RESULT_FILE)
-	type result.txt
+	./a.out < $(TEST_FILE) > $(RESULT_FILE)
+	cat result.txt
 
 interactive:
 	$(CPP) $(ARGS_CODEFORCES)

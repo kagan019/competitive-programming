@@ -48,10 +48,12 @@ int main() {
 			[&store](const int &a, const int &b){ 
 				return store[a].ss > store[b].ss; 
 			});
+
 		int last;
 		while(hh.size()) {
 			pop_heap(hh.begin(),hh.end());
 			last = hh.back();
+			cout << last << endl;
 			hh.pop_back();
 			if (store[last].r == h) break;
 			visited[store[last].r][store[last].c] = store[last].ss;
@@ -73,11 +75,12 @@ int main() {
 					push_heap(hh.begin(),hh.end());
 				}
 			}
-			cout << "foo" << endl;
 		}
-		cout << "?2" << endl;
+		for (auto &p : store) {
+			cout << "\t" << p.last << endl;
+		}
 		for(int ll = last; ll != -1; ll = store[last].last) {
-			cout << store[last].r << ", " << store[last].c << endl;
+			cout << "*" <<  ll << endl;
 			block[store[last].r][store[last].c] = ' ' - '0';
 		} 
 		for (int i = 0; i < h; i++ ){
