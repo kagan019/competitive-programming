@@ -1,70 +1,59 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<bool> gen_primes() {
-    vector<bool>primes(3000001,true);
-    for (int i = 0; i < primes.size(); i++) {
-        if (!(primes[i]))
+vector<long long> gen_primes() {
+    vector<bool>primes(3000000/2,true); //ignore index 0,1
+    for (long long i = 2; i < primes.size(); i++) {
+        if (!primes[i])
             continue;
-        for (int j = i*i; j < primes.size(); j += i) {
+        for (long long j = i*i; j < primes.size(); j += i) {
             primes[j] = false;
         }
     }
-    return primes;
+    vector<long long> prms;
+    for (long long p = 2; p < primes.size(); p++) {
+        if (!primes[p])
+            continue;
+        prms.push_back(p);
+    }
+    return prms;
 }
 
-vector<pair<int,int>> pf(vector<bool> &primes, int i) {
-    vector<pair<int,int>> ret;
-    for (int p = 0; p < primes.size(); p++) {
-        if (!(primes[p]))
-            continue;
-        if (p*p > i)
+vector<pair<long long,long long>> pf(vector<long long> &primes, long long i) {
+    vector<pair<long long,long long>> ret;
+    const long long i2 = i;
+    for (long long p : primes) {
+        if (p*2 > i2)
             break;
-        int times = 0;
+        long long times = 0;
         while (i % p == 0) {
             i /= p;
             times++;
         }
         if (times == 0) continue;
-        //cout << p << ": " << times << endl;
         ret.push_back(make_pair(p, times));
     }
     return ret;
 }
 
-int fac(int n, int stop) {
-    int ret = 1;
-    while(n > stop) {
-        ret *= n;
-        n--;
-    }
-    return ret;
-}
-
-int nCr(int n,int r) {
-    if (r > n)
-        return 0;
-    return fac(n,n-r) / fac(r,0);
-}
-
-int NPF(vector<bool> &prm, int i) {
-    vector<pair<int,int>> pf_ = pf(prm ,i);
-    int ret = 1;
-    for (int i = 0; i < pf_.size(); i++) {
+long long NPF(vector<long long> &prm, long long i) {
+    vector<pair<long long,long long>> p = pf(prm ,i);
+    long long ret = 1;
+    for (long long i = 0; i < p.size(); i++) {
         //cout << pf_[i].first << ":" << pf_[i].second << endl;
-        ret *= (pf_[i].second+1);
+        ret *= (p[i].second+1);
     }
-    return ret-pf_.size();
+    return ret-p.size();
 }
 
 int main() {
     cin.sync_with_stdio(false);
     cin.tie(NULL);
     auto prm = gen_primes();
-    int Q; cin >> Q;
+    long long Q; cin >> Q;
     ostringstream ss;
     while (Q--) {
-        int i; cin >> i;
+        long long i; cin >> i;
         ss << NPF(prm, i) << endl;
     }
     cout << ss.str() << flush;

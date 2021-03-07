@@ -23,26 +23,25 @@ int main(){
     for (int &x : ss)
         cin >> x;
 
-    vector<ll> twosb4threes;
+    vector<ll> tao;
     ll ans = 0;
-    for(ll i = n-1; i >= 0; i--) {
-        if (ss[i] == 3) {
-            twosb4threes.push_back(0);
+    for(ll i = 0; i < n; i++) {
+        if (ss[i] == 1) {
+            tao.push_back(0);
         }
         if (ss[i] == 2) {
-            if (twosb4threes.size() == 0)
+            if (!tao.size())
                 continue;
-            twosb4threes[twosb4threes.size()-1]++;
+            tao[tao.size()-1]++;
         }
-        if (ss[i] == 1) {
+        if (ss[i] == 3) {
             //how many songs that use that one
             ll twos = 0;
-            for (ll threescmp = twosb4threes.size()-1; threescmp >= 0 ; threescmp--) {
-                twos += twosb4threes[threescmp];
-                ans += (MOD + fastExpo(2,twos,MOD)-1) % MOD;
+            for (int i = tao.size() -1; i >= 0; i--) {
+                twos += tao[i];
+                ans += (MOD+fastExpo(2,twos, MOD)-1) % MOD;
                 ans %= MOD;
             }
-            
         }
     }
     cout << ans << endl;
