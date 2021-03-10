@@ -13,8 +13,10 @@ void dijkstra(vector<vector<int>> &mtx, int st) {
         auto at = q.back();
         int here = at.first;
         int cost = at.second;
-        mtx[st][here] = cost;
         q.pop_back();
+        if (visited[here])
+            continue;
+        mtx[st][here] = cost;
         visited[here] = true;
         
         for (int i = 0; i < mtx[here].size();i++) {
@@ -25,7 +27,7 @@ void dijkstra(vector<vector<int>> &mtx, int st) {
             if (visited[i])
                 continue;
             
-            q.push_back({i,mtx[i][here]+mtx[here][i]});
+            q.push_back({i,cost+mtx[here][i]});
             push_heap(q.begin(),q.end(), cmp);
         }
     }
@@ -37,23 +39,66 @@ void closure(vector<vector<int>> &mtx) {
 
 }
 
-void merge_subpaths(vector<unordered_set<int>> &sp) {
-    
-}
+//from geekesforgeeks.org/maximum-bipartite-matching
+bool bpm(vector<vector<int>> &bpGraph, int u, 
+         vector<bool> &seen, vector<int> &matchR) 
+{ 
+    // Try every job one by one 
+    for (int v = 0; v < bpGraph[0].size(); v++) 
+    { 
+        // If applicant u is interested in  
+        // job v and v is not visited 
+        if (bpGraph[u][v] && !seen[v]) 
+        { 
+            // Mark v as visited 
+            seen[v] = true;  
+  
+            // If job 'v' is not assigned to an  
+            // applicant OR previously assigned  
+            // applicant for job v (which is matchR[v])  
+            // has an alternate job available.  
+            // Since v is marked as visited in  
+            // the above line, matchR[v] in the following  
+            // recursive call will not get job 'v' again 
+            if (matchR[v] < 0 || bpm(bpGraph, matchR[v], 
+                                     seen, matchR)) 
+            { 
+                matchR[v] = u; 
+                return true; 
+            } 
+        } 
+    } 
+    return false; 
+} 
+  
+// Returns maximum number 
+// of matching from M to N 
+int maxBPM(vector<vector<int>> &bpGraph) 
+{ 
+    const int N = bpGraph[0].size();
+    // An array to keep track of the  
+    // applicants assigned to jobs.  
+    // The value of matchR[i] is the  
+    // applicant number assigned to job i, 
+    // the value -1 indicates nobody is 
+    // assigned. 
+    vector<int> matchR(N,-1);
+  
+    // Count of jobs assigned to applicants 
+    int result = 0;  
+    for (int u = 0; u < bpGraph.size(); u++) 
+    { 
+        // Mark all jobs as not seen  
+        // for next applicant. 
+        vector<bool> seen(N,0);
+  
+        // Find if the applicant 'u' can get a job 
+        if (bpm(bpGraph, u, seen, matchR)) 
+            result++; 
+    } 
+    return result; 
+} 
 
-unordered_map<int,int> cache;
-int drivers(vector<unordered_set<int>> &tripg, int v) {
-    if (v == -2)
-        return 1;
-    auto f = cache.find(v);
-    if (f != cache.end())
-        return f->second;
-    int ss = 0;
-    for (int nbr : tripg[v+2])
-        ss += drivers(tripg,nbr);
-    cache[v] = ss;
-    return ss;
-}
 
 struct Trip{
     int s; int e;
@@ -78,20 +123,13 @@ int main() {
     }
     closure(adj);
     
-    vector<unordered_set<int>> tripg(k+2,unordered_set<int>()); // directed acyclic
+    vector<vector<int>> tripg(k,vector<int>(k, 0)); // directed acyclic
     //-1 source trip, -2 sink trip
-    auto dropm = [&tripg](int trip1, int trip2) {
-        tripg[trip1+2].erase(trip2);
-    };
     auto setm = [&tripg](int trip1,int trip2) { //trip2 can be reached after trip1
         assert(trip1 != -2); // should be terminal
         assert(trip2 != -1); //should be initial
-        tripg[trip1+2].insert(trip2);
+        tripg[trip1][trip2] = 1;
     };    
-    for (int i = 0; i < k; i++) {
-        setm(-1,i);
-        setm(i,-2);
-    }
 
     for (int t1 = 0; t1 < trips.size()-1; t1++) {
         for (const auto &p : trips[t1]) {
@@ -108,9 +146,9 @@ int main() {
     // the graph is a strict order (no cycles, every vertex has a 
     // path to it from the source and from it to the sink)
 
-    merge_subpaths(tripg);
+    int matches = maxBPM(tripg);
     
     //transitively 'unclosed'. Now, every path between two vertexes calls for a unique driver 
-    cout << drivers(tripg,-1);
+    cout << k-matches;
 
 }
