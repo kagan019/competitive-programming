@@ -39,23 +39,20 @@ vector<pair<long long,long long>> pf(vector<long long> &primes, long long i) {
 long long NPF(vector<long long> &prm, long long i) {
     vector<pair<long long,long long>> p = pf(prm ,i);
     long long ret = 1;
-    for (long long i = 0; i < p.size(); i++) {
-        //cout << pf_[i].first << ":" << pf_[i].second << endl;
-        ret *= (p[i].second+1);
+    for (long long j = 0; j < p.size(); j++) {
+        ret *= (p[j].second+1);
     }
     return ret-p.size();
 }
 
 int main() {
-    cin.sync_with_stdio(false);
-    cin.tie(NULL);
     auto prm = gen_primes();
-    long long Q; cin >> Q;
+    long long Q; scanf("%lld",&Q);
     ostringstream ss;
     while (Q--) {
-        long long i; cin >> i;
+        long long i; scanf("%lld",&i);
         ss << NPF(prm, i) << endl;
     }
-    cout << ss.str() << flush;
+    printf("%s", ss.str().c_str());
     return 0;
 }
